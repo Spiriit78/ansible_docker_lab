@@ -1,0 +1,30 @@
+---
+- name: Playbook TP3
+  hosts: node
+  become: yes
+
+  tasks:
+  - name: Creation repertoire
+    file:
+      path: /app_data
+      state: directory
+
+  - name: Creation groupe
+    group:
+      name: app_group
+      state: present
+
+  - name: Creation user
+    user:
+      name: app_user
+      create_home: yes
+      home: /home/app_user
+      groups: app_group
+
+  - name: Droits sur repertoire
+    file:
+      path: /app_data
+      state: directory
+      owner: app_user
+      group: app_group
+      mode: '0744'
